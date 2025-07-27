@@ -10,9 +10,10 @@ import { TPost } from "../../../types"
 
 type Props = {
   data: TPost
+  index?: number
 }
 
-const PostCard: React.FC<Props> = ({ data }) => {
+const PostCard: React.FC<Props> = ({ data, index = 0 }) => {
   const categoryStr = (data.category && data.category?.[0]) || undefined
   const category = categoryStr ? parseCategoryHierarchy(categoryStr) : undefined
 
@@ -39,7 +40,9 @@ const PostCard: React.FC<Props> = ({ data }) => {
                 <Image
                   src={data.thumbnail}
                   fill
-                  alt={data.title}
+                  alt={`${data.title} - ${data.summary ? data.summary.slice(0, 100) : '블로그 포스트'} 썸네일`}
+                  sizes="(max-width: 768px) 80px, (max-width: 1024px) 100px, 120px"
+                  priority={index < 3}
                   css={{
                     objectFit: "cover",
                     transform: "scale(0.9)",
