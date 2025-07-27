@@ -220,7 +220,191 @@ export const notionCustomStyles = css`
     color: rgba(55, 53, 47, 0.65) !important;
   }
   
-  .notion-table-of-contents,
+  /* 사이드바 스타일의 목차 (Table of Contents) */
+  .sidebar__right {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    margin-left: 2rem;
+    width: 300px;
+    flex-shrink: 0;
+  }
+
+  .toc {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+  }
+
+  .toc header {
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .nav__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .nav__title svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+  }
+
+  .toc__menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc__menu li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .toc__menu li:last-child {
+    border-bottom: none;
+  }
+
+  .toc__menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .toc__menu a:hover {
+    background: rgba(34, 197, 94, 0.05);
+    color: #22c55e;
+    border-left-color: #22c55e;
+  }
+
+  .toc__menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .toc__menu ul li a {
+    padding-left: 2rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+
+  .toc__menu ul ul li a {
+    padding-left: 3rem;
+    font-size: 0.75rem;
+  }
+
+  /* 다크 모드 스타일 */
+  .dark .toc {
+    background: rgba(31, 41, 55, 0.95);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .toc header {
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .dark .nav__title {
+    color: #f3f4f6;
+  }
+
+  .dark .toc__menu li {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .toc__menu a {
+    color: #d1d5db;
+  }
+
+  .dark .toc__menu a:hover {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border-left-color: #4ade80;
+  }
+
+  .dark .toc__menu ul {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .dark .toc__menu ul li a {
+    color: #9ca3af;
+  }
+
+  .dark .toc__menu ul ul li a {
+    color: #6b7280;
+  }
+
+  /* 다크 모드 기존 notion 목차 */
+  .dark .notion-table-of-contents {
+    background: rgba(31, 41, 55, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .dark .notion-table-of-contents::before {
+    color: #f3f4f6 !important;
+  }
+
+  .dark .notion-table-of-contents a {
+    color: #d1d5db !important;
+  }
+
+  .dark .notion-table-of-contents a:hover {
+    color: #4ade80 !important;
+  }
+
+  .dark .notion-table-of-contents * {
+    color: #d1d5db !important;
+  }
+
+  /* 기존 notion 목차 스타일 개선 */
+  .notion-table-of-contents {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .notion-table-of-contents::before {
+    content: "📋 Table of Contents";
+    display: block;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+
+  .notion-table-of-contents a {
+    color: #374151 !important;
+    text-decoration: none;
+  }
+
+  .notion-table-of-contents a:hover {
+    color: #22c55e !important;
+  }
+
   .notion-table-of-contents *,
   .notion-simple-table-cell,
   .notion-simple-table-cell * {
