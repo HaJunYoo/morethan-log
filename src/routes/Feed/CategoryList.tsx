@@ -1,10 +1,10 @@
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Emoji } from "src/components/Emoji"
+import { DEFAULT_CATEGORY } from "src/constants"
 import usePostsQuery from "src/hooks/usePostsQuery"
 import { getMajorCategoriesFromPosts } from "src/libs/utils/category"
-import { DEFAULT_CATEGORY } from "src/constants"
 
 type Props = {}
 
@@ -63,14 +63,14 @@ const CategoryList: React.FC<Props> = () => {
           onClick={() => handleClickCategory(DEFAULT_CATEGORY)}
           className="all-category"
         >
-          📂 All <span style={{ color: '#aaa' }}>({posts?.length || 0})</span>
+          📂 All <span style={{ color: 'var(--colors-gray9)' }}>({posts?.length || 0})</span>
         </a>
-        
+
         {/* 계층 구조로 카테고리 표시 */}
         {Object.entries(majorCategories).map(([major, data]) => {
           const isExpanded = expandedCategories.has(major)
           const hasMinorCategories = Object.keys(data.minorCategories).length > 0
-          
+
           return (
             <div key={major} className="category-group">
               {/* 대분류 */}
@@ -80,7 +80,7 @@ const CategoryList: React.FC<Props> = () => {
                 className="major-category"
               >
                 {hasMinorCategories ? (
-                  <span 
+                  <span
                     className={`toggle-icon ${!isExpanded ? 'collapsed' : ''}`}
                     onClick={(e) => toggleCategory(major, e)}
                     title={isExpanded ? '접기' : '펼쳐서 하위 카테고리 보기'}
@@ -89,9 +89,9 @@ const CategoryList: React.FC<Props> = () => {
                   </span>
                 ) : (
                   '📁'
-                )} {major} <span style={{ color: '#aaa' }}>({data.count})</span>
+                )} {major} <span style={{ color: 'var(--colors-gray9)', marginLeft: '3px' }}>({data.count})</span>
               </a>
-              
+
               {/* 소분류들 - 토글 상태에 따라 표시 */}
               {isExpanded && Object.entries(data.minorCategories).map(([minor, count]) => (
                 <a
@@ -100,7 +100,7 @@ const CategoryList: React.FC<Props> = () => {
                   onClick={() => handleClickCategory(`${major}/${minor}`)}
                   className="minor-category"
                 >
-                  {minor} <span style={{ color: '#aaa' }}>({count})</span>
+                  {minor} <span style={{ color: 'var(--colors-gray10)' }}>({count})</span>
                 </a>
               ))}
             </div>
@@ -114,6 +114,13 @@ const CategoryList: React.FC<Props> = () => {
 export default CategoryList
 
 const StyledWrapper = styled.div`
+  width: 100%;
+  max-width: 380px;
+
+  @media (min-width: 1024px) {
+    max-width: 340px;
+  }
+
   .top {
     display: none;
     padding: 0.25rem;
@@ -176,7 +183,7 @@ const StyledWrapper = styled.div`
       &.all-category {
         font-weight: 600;
         margin-bottom: 0.5rem;
-        
+
         @media (min-width: 1024px) {
           border-bottom: 1px solid ${({ theme }) => theme.colors.gray5};
           padding-bottom: 0.5rem;
@@ -187,23 +194,23 @@ const StyledWrapper = styled.div`
         font-weight: 600;
         display: flex;
         align-items: center;
-        
+
         @media (min-width: 1024px) {
           margin-top: 0.5rem;
         }
-        
+
         .toggle-icon {
           margin-right: 0.25rem;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
           position: relative;
-          
+
           :hover {
             opacity: 0.7;
             transform: scale(1.1);
           }
-          
+
           &.collapsed:after {
             content: "";
             position: absolute;
@@ -220,9 +227,9 @@ const StyledWrapper = styled.div`
 
       &.minor-category {
         font-size: 0.8rem;
-        color: ${({ theme }) => theme.colors.gray9};
+        color: ${({ theme }) => theme.colors.gray11};
         position: relative;
-        
+
         @media (min-width: 1024px) {
           margin-left: 1rem;
           padding-left: 1.75rem;
@@ -232,7 +239,7 @@ const StyledWrapper = styled.div`
           content: "•";
           margin-right: 0.5rem;
           color: ${({ theme }) => theme.colors.gray7};
-          
+
           @media (min-width: 1024px) {
             position: absolute;
             left: 1rem;

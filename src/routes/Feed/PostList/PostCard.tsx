@@ -197,10 +197,11 @@ const StyledWrapper = styled(Link)`
         }
       }
       > .summary {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
         p {
           display: none;
-          line-height: 2rem;
+          font-size: 0.875rem;
+          line-height: 1.5rem;
           color: ${({ theme }) => theme.colors.gray11};
 
           @media (min-width: 768px) {
