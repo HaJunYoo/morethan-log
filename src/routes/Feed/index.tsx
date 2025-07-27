@@ -99,11 +99,7 @@ const StyledWrapper = styled.div`
     }
 
     > .categories {
-      display: block;
-
-      @media (min-width: 1024px) {
-        display: none;
-      }
+      display: none !important;
     }
 
     > .footer {

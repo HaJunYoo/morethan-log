@@ -1,7 +1,7 @@
 import useDropdown from "src/hooks/useDropdown"
 import { useRouter } from "next/router"
 import React from "react"
-import { MdExpandMore } from "react-icons/md"
+import { IoChevronDown } from "react-icons/io5"
 import { DEFAULT_CATEGORY } from "src/constants"
 import styled from "@emotion/styled"
 import { useCategoriesQuery } from "src/hooks/useCategoriesQuery"
@@ -13,7 +13,7 @@ type Props = {}
 const CategorySelect: React.FC<Props> = () => {
   const router = useRouter()
   const posts = usePostsQuery()
-  const [dropdownRef, opened, handleOpen] = useDropdown()
+  const [dropdownRef, opened, handleToggle] = useDropdown()
 
   const currentCategory = `${router.query.category || ``}` || DEFAULT_CATEGORY
   const majorCategories = posts && posts.length > 0 ? getMajorCategoriesFromPosts(posts) : {}
@@ -28,11 +28,19 @@ const CategorySelect: React.FC<Props> = () => {
   }
   return (
     <StyledWrapper>
-      <div ref={dropdownRef} className="wrapper" onClick={handleOpen}>
-        {currentCategory} Posts <MdExpandMore />
+      <div ref={dropdownRef} className="wrapper" onClick={handleToggle}>
+        {currentCategory} Posts <IoChevronDown />
       </div>
       {opened && (
         <div className="content">
+          <div>
+            <div
+              className="item major-category"
+              onClick={() => handleOptionClick(DEFAULT_CATEGORY)}
+            >
+              📂 ALL ({posts?.length || 0})
+            </div>
+          </div>
           {Object.entries(majorCategories).map(([major, data]) => (
             <div key={major}>
               <div
@@ -62,17 +70,38 @@ export default CategorySelect
 
 const StyledWrapper = styled.div`
   position: relative;
+  flex: 1;
+  min-width: 0;
+  
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+  
   > .wrapper {
     display: flex;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     gap: 0.25rem;
     align-items: center;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 700;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      justify-content: center;
+      text-align: center;
+    }
   }
+  
   > .content {
     position: absolute;
     z-index: 40;
@@ -82,6 +111,15 @@ const StyledWrapper = styled.div`
     color: ${({ theme }) => theme.colors.gray10};
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    max-width: 300px;
+    min-width: 200px;
+    
+    @media (max-width: 480px) {
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 90vw;
+      min-width: 250px;
+    }
     > div > .item {
       padding: 0.25rem;
       padding-left: 0.5rem;

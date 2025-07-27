@@ -24,12 +24,14 @@ const useDropdown: useDropdownType = () => {
     }
   }
 
-  const onOpenBtn = () => {
-    setIsDropdownOpened(true)
-    window.addEventListener('click', handleClick)
+  const onToggleBtn = () => {
+    setIsDropdownOpened(!isDropdownOpened)
+    if (!isDropdownOpened) {
+      window.addEventListener('click', handleClick)
+    }
   }
 
-  return [menuRef, isDropdownOpened, onOpenBtn]
+  return [menuRef, isDropdownOpened, onToggleBtn]
 }
 
 export default useDropdown

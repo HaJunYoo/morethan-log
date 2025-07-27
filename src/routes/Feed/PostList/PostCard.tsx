@@ -34,7 +34,7 @@ const PostCard: React.FC<Props> = ({ data, index = 0 }) => {
         )}
         <div data-thumb={!!data.thumbnail} data-category={!!categoryStr} className="content">
           <header className="top">
-            <h2>{data.title}</h2>
+            <h3>{data.title}</h3>
             {data.thumbnail && (
               <div className="thumbnail">
                 <Image
@@ -99,22 +99,36 @@ const StyledWrapper = styled(Link)`
     }
     > .category {
       position: absolute;
-      top: 1rem;
-      left: 1rem;
+      top: 0.75rem;
+      left: 0.75rem;
       z-index: 10;
+
+      @media (min-width: 768px) {
+        top: 1rem;
+        left: 1rem;
+      }
 
       .category-hierarchy {
         display: none;
-        margin-top: 0.25rem;
-        font-size: 0.75rem;
+        margin-top: 0.125rem;
+        font-size: 0.625rem;
         color: ${({ theme }) => theme.colors.gray9};
+
+        @media (min-width: 768px) {
+          margin-top: 0.25rem;
+          font-size: 0.75rem;
+        }
 
         .major {
           font-weight: 500;
         }
 
         .separator {
-          margin: 0 0.25rem;
+          margin: 0 0.125rem;
+
+          @media (min-width: 768px) {
+            margin: 0 0.25rem;
+          }
         }
 
         .minor {
@@ -125,16 +139,36 @@ const StyledWrapper = styled(Link)`
 
 
     > .content {
-      padding: 0.75rem;
+      padding: 0.5rem;
+      padding-left: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
 
       &[data-thumb="false"] {
-        padding-top: 2.75rem;
+        padding-top: 2.5rem;
       }
       &[data-category="false"] {
-        padding-top: 1rem;
+        padding-top: 0.75rem;
       }
       &[data-category="true"] {
         padding-top: 2.5rem;
+      }
+      
+      @media (min-width: 768px) {
+        padding: 0.75rem;
+        padding-left: 1rem;
+        gap: 0.375rem;
+        
+        &[data-thumb="false"] {
+          padding-top: 2.75rem;
+        }
+        &[data-category="false"] {
+          padding-top: 1rem;
+        }
+        &[data-category="true"] {
+          padding-top: 2.75rem;
+        }
       }
       > .top {
         display: flex;
@@ -143,17 +177,19 @@ const StyledWrapper = styled(Link)`
         align-items: flex-start;
         gap: 1rem;
 
-        h2 {
+        h3 {
           flex: 1;
-          margin-bottom: 0.25rem;
-          font-size: 1rem;
-          line-height: 1.5rem;
+          margin: 0;
+          margin-top: 0.25rem;
+          font-size: 0.875rem;
+          line-height: 1.2rem;
           font-weight: 500;
           cursor: pointer;
 
           @media (min-width: 768px) {
-            font-size: 1.125rem;
-            line-height: 1.75rem;
+            font-size: 1rem;
+            line-height: 1.3rem;
+            margin-top: 0.375rem;
           }
         }
 
@@ -184,20 +220,21 @@ const StyledWrapper = styled(Link)`
       }
       > .date {
         display: flex;
-        margin-bottom: 0.5rem;
         gap: 0.5rem;
         align-items: center;
         .content {
-          font-size: 0.875rem;
-          line-height: 1.25rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
           color: ${({ theme }) => theme.colors.gray10};
+          
           @media (min-width: 768px) {
+            font-size: 0.875rem;
+            line-height: 1.25rem;
             margin-left: 0;
           }
         }
       }
       > .summary {
-        margin-bottom: 0.5rem;
         p {
           display: none;
           font-size: 0.875rem;
@@ -211,7 +248,13 @@ const StyledWrapper = styled(Link)`
       }
       > .tags {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        
+        @media (min-width: 768px) {
+          gap: 0.5rem;
+        }
       }
     }
   }
