@@ -116,7 +116,7 @@ export default CategoryList
 
 const StyledWrapper = styled.div`
   width: 100%;
-  max-width: 380px;
+  max-width: 520px;
 
   /* Hide categories on mobile and narrow screens */
   @media (max-width: 960px) {
@@ -124,7 +124,7 @@ const StyledWrapper = styled.div`
   }
 
   @media (min-width: 1024px) {
-    max-width: 340px;
+    max-width: 460px;
   }
 
   .top {
@@ -156,7 +156,12 @@ const StyledWrapper = styled.div`
 
     .category-group {
       @media (min-width: 1024px) {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
 
@@ -198,15 +203,24 @@ const StyledWrapper = styled.div`
 
       &.major-category {
         font-weight: 600;
+        font-size: 0.825rem;
         display: flex;
         align-items: center;
+        border-left: 3px solid transparent;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.blue2};
+        }
 
         @media (min-width: 1024px) {
           margin-top: 0.5rem;
+          margin-bottom: 0.25rem;
         }
 
         .toggle-icon {
-          margin-right: 0.25rem;
+          margin-right: 0.5rem;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
@@ -232,13 +246,20 @@ const StyledWrapper = styled.div`
       }
 
       &.minor-category {
-        font-size: 0.8rem;
+        font-size: 0.775rem;
         color: ${({ theme }) => theme.colors.gray11};
         position: relative;
+        border-left: 2px solid transparent;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.blue2};
+        }
 
         @media (min-width: 1024px) {
-          margin-left: 1rem;
-          padding-left: 1.75rem;
+          margin-left: 1.5rem;
+          padding-left: 2rem;
+          margin-top: 0.125rem;
+          margin-bottom: 0.125rem;
         }
 
         &::before {
@@ -248,13 +269,16 @@ const StyledWrapper = styled.div`
 
           @media (min-width: 1024px) {
             position: absolute;
-            left: 1rem;
+            left: 1.25rem;
             margin-right: 0;
           }
         }
 
         &[data-active="true"] {
-          color: ${({ theme }) => theme.colors.gray11};
+          color: ${({ theme }) => theme.colors.gray12};
+          background-color: ${({ theme }) => theme.colors.blue3};
+          border-left-color: ${({ theme }) => theme.colors.blue8};
+          font-weight: 500;
         }
       }
     }
