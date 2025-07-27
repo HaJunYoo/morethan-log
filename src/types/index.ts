@@ -12,6 +12,74 @@ export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
+export type TProject = {
+  name: string
+  href: string
+  description?: string
+}
+
+export type TConfig = {
+  profile: {
+    name: string
+    image: string
+    role: string
+    bio: string
+    email: string
+    linkedin: string
+    github: string
+    instagram: string
+  }
+  projects: TProject[]
+  blog: {
+    title: string
+    description: string
+    scheme: "light" | "dark" | "system"
+  }
+  link: string
+  since: number
+  lang: string
+  ogImageGenerateURL: string
+  deployVersion: string
+  notionConfig: {
+    pageId: string
+  }
+  googleAnalytics: {
+    enable: boolean
+    config: {
+      measurementId: string
+    }
+  }
+  googleSearchConsole: {
+    enable: boolean
+    config: {
+      siteVerification: string
+    }
+  }
+  naverSearchAdvisor: {
+    enable: boolean
+    config: {
+      siteVerification: string
+    }
+  }
+  utterances: {
+    enable: boolean
+    config: {
+      repo: string
+      "issue-term": string
+      label: string
+    }
+  }
+  cusdis: {
+    enable: boolean
+    config: {
+      host: string
+      appid: string
+    }
+  }
+  isProd: boolean
+  revalidateTime: number
+}
+
 export type TPostStatus = "Private" | "Public" | "PublicOnDetail"
 export type TPostType = "Post" | "Paper" | "Page"
 
