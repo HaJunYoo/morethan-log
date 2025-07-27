@@ -175,13 +175,15 @@ const StyledWrapper = styled.section`
 
         .category {
           padding: 0.0625rem 0.1875rem;
-          background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-          color: ${({ theme }) => theme.colors.gray11};
+          background: ${({ theme }) => 
+            theme.scheme === "light" ? "#64748b" : theme.colors.gray7};
+          color: ${({ theme }) => 
+            theme.scheme === "light" ? "white" : theme.colors.gray12};
           border-radius: 0.125rem;
           font-weight: 500;
           font-size: 0.5rem;
           border: 1px solid ${({ theme }) => 
-            theme.scheme === "light" ? "#e2e8f0" : theme.colors.gray7};
+            theme.scheme === "light" ? "#475569" : theme.colors.gray6};
         }
       }
     }
