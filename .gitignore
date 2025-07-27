@@ -7,7 +7,6 @@
 
 # env
 .env
-CLAUDE.md
 
 # testing
 /coverage
