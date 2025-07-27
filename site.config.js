@@ -10,8 +10,7 @@ const CONFIG = {
     github: "HaJunYoo",
     instagram: "",
   },
-  projects: [
-  ],
+  projects: [],
   // blog setting (required)
   blog: {
     title: "YUKI's DEV LOG",
