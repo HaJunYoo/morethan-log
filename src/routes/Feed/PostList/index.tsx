@@ -1,10 +1,10 @@
-import { useRouter } from "next/router"
-import React, { useEffect, useState, useMemo } from "react"
-import PostCard from "src/routes/Feed/PostList/PostCard"
-import { DEFAULT_CATEGORY } from "src/constants"
-import usePostsQuery from "src/hooks/usePostsQuery"
-import { useInfiniteScroll } from "src/hooks/useInfiniteScroll"
 import styled from "@emotion/styled"
+import { useRouter } from "next/router"
+import React, { useEffect, useMemo, useState } from "react"
+import { DEFAULT_CATEGORY } from "src/constants"
+import { useInfiniteScroll } from "src/hooks/useInfiniteScroll"
+import usePostsQuery from "src/hooks/usePostsQuery"
+import PostCard from "src/routes/Feed/PostList/PostCard"
 
 type Props = {
   q: string
@@ -65,14 +65,14 @@ const PostList: React.FC<Props> = ({ q }) => {
 
   const loadMore = () => {
     if (isLoading || !hasMore) return
-    
+
     setIsLoading(true)
     setTimeout(() => {
       const nextPage = currentPage + 1
       const startIndex = (nextPage - 1) * POSTS_PER_PAGE
       const endIndex = startIndex + POSTS_PER_PAGE
       const newPosts = filteredPosts.slice(0, endIndex)
-      
+
       setDisplayedPosts(newPosts)
       setCurrentPage(nextPage)
       setIsLoading(false)
@@ -91,10 +91,10 @@ const PostList: React.FC<Props> = ({ q }) => {
         {!filteredPosts.length && (
           <p className="text-gray-500 dark:text-gray-300">Nothing! 😺</p>
         )}
-        {displayedPosts.map((post) => (
-          <PostCard key={post.id} data={post} />
+        {displayedPosts.map((post, index) => (
+          <PostCard key={post.id} data={post} index={index} />
         ))}
-        
+
         {hasMore && (
           <LoadingWrapper ref={loadMoreRef}>
             {isLoading && (

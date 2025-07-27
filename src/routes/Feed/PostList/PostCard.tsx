@@ -1,18 +1,19 @@
+import styled from "@emotion/styled"
+import Image from "next/image"
 import Link from "next/link"
 import { CONFIG } from "site.config"
 import { formatDate } from "src/libs/utils"
+import { parseCategoryHierarchy } from "src/libs/utils/category"
+import Category from "../../../components/Category"
 import Tag from "../../../components/Tag"
 import { TPost } from "../../../types"
-import Image from "next/image"
-import Category from "../../../components/Category"
-import styled from "@emotion/styled"
-import { parseCategoryHierarchy } from "src/libs/utils/category"
 
 type Props = {
   data: TPost
+  index?: number
 }
 
-const PostCard: React.FC<Props> = ({ data }) => {
+const PostCard: React.FC<Props> = ({ data, index = 0 }) => {
   const categoryStr = (data.category && data.category?.[0]) || undefined
   const category = categoryStr ? parseCategoryHierarchy(categoryStr) : undefined
 
@@ -31,19 +32,25 @@ const PostCard: React.FC<Props> = ({ data }) => {
             )}
           </div>
         )}
-        {data.thumbnail && (
-          <div className="thumbnail">
-            <Image
-              src={data.thumbnail}
-              fill
-              alt={data.title}
-              css={{ objectFit: "cover" }}
-            />
-          </div>
-        )}
         <div data-thumb={!!data.thumbnail} data-category={!!categoryStr} className="content">
           <header className="top">
             <h2>{data.title}</h2>
+            {data.thumbnail && (
+              <div className="thumbnail">
+                <Image
+                  src={data.thumbnail}
+                  fill
+                  alt={`${data.title} - ${data.summary ? data.summary.slice(0, 100) : '블로그 포스트'} 썸네일`}
+                  sizes="(max-width: 768px) 80px, (max-width: 1024px) 100px, 120px"
+                  priority={index < 3}
+                  css={{
+                    objectFit: "cover",
+                    transform: "scale(0.9)",
+                    borderRadius: "0.5rem"
+                  }}
+                />
+              </div>
+            )}
           </header>
           <div className="date">
             <div className="content">
@@ -95,37 +102,28 @@ const StyledWrapper = styled(Link)`
       top: 1rem;
       left: 1rem;
       z-index: 10;
-      
+
       .category-hierarchy {
         display: none;
         margin-top: 0.25rem;
         font-size: 0.75rem;
         color: ${({ theme }) => theme.colors.gray9};
-        
+
         .major {
           font-weight: 500;
         }
-        
+
         .separator {
           margin: 0 0.25rem;
         }
-        
+
         .minor {
           font-weight: 400;
         }
       }
     }
 
-    > .thumbnail {
-      position: relative;
-      width: 100%;
-      background-color: ${({ theme }) => theme.colors.gray2};
-      padding-bottom: 66%;
 
-      @media (min-width: 1024px) {
-        padding-bottom: 50%;
-      }
-    }
     > .content {
       padding: 0.75rem;
 
@@ -135,26 +133,52 @@ const StyledWrapper = styled(Link)`
       &[data-category="false"] {
         padding-top: 1rem;
       }
+      &[data-category="true"] {
+        padding-top: 2.5rem;
+      }
       > .top {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
 
-        @media (min-width: 768px) {
-          flex-direction: row;
-          align-items: baseline;
-        }
         h2 {
+          flex: 1;
           margin-bottom: 0.25rem;
           font-size: 1rem;
           line-height: 1.5rem;
           font-weight: 500;
-
           cursor: pointer;
 
           @media (min-width: 768px) {
             font-size: 1.125rem;
             line-height: 1.75rem;
+          }
+        }
+
+        .thumbnail {
+          position: relative;
+          width: 80px;
+          height: 60px;
+          flex-shrink: 0;
+          background-color: ${({ theme }) => theme.colors.gray2};
+          border-radius: 0.5rem;
+          overflow: hidden;
+
+          @media (min-width: 768px) {
+            width: 100px;
+            height: 75px;
+          }
+
+          @media (min-width: 1024px) {
+            width: 120px;
+            height: 90px;
+          }
+
+          img {
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
           }
         }
       }
