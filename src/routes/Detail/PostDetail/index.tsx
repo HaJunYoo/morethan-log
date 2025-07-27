@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react"
 import PostHeader from "./PostHeader"
 import Footer from "./PostFooter"
 import CommentBox from "./CommentBox"
+import RelatedPosts from "./RelatedPosts"
 import Category from "src/components/Category"
 import styled from "@emotion/styled"
 import NotionRenderer from "../components/NotionRenderer"
 import usePostQuery from "src/hooks/usePostQuery"
+import usePostsQuery from "src/hooks/usePostsQuery"
 
 
 type Props = {}
 
 const PostDetail: React.FC<Props> = () => {
   const data = usePostQuery()
+  const allPosts = usePostsQuery()
 
   if (!data) return null
 
@@ -34,6 +37,7 @@ const PostDetail: React.FC<Props> = () => {
         {data.type[0] === "Post" && (
           <>
             <Footer />
+            <RelatedPosts currentPost={data} allPosts={allPosts} />
             <CommentBox data={data} />
           </>
         )}
