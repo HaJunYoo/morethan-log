@@ -31,19 +31,23 @@ const PostCard: React.FC<Props> = ({ data }) => {
             )}
           </div>
         )}
-        {data.thumbnail && (
-          <div className="thumbnail">
-            <Image
-              src={data.thumbnail}
-              fill
-              alt={data.title}
-              css={{ objectFit: "cover" }}
-            />
-          </div>
-        )}
         <div data-thumb={!!data.thumbnail} data-category={!!categoryStr} className="content">
           <header className="top">
             <h2>{data.title}</h2>
+            {data.thumbnail && (
+              <div className="thumbnail">
+                <Image
+                  src={data.thumbnail}
+                  fill
+                  alt={data.title}
+                  css={{
+                    objectFit: "cover",
+                    transform: "scale(0.9)",
+                    borderRadius: "0.5rem"
+                  }}
+                />
+              </div>
+            )}
           </header>
           <div className="date">
             <div className="content">
@@ -116,26 +120,7 @@ const StyledWrapper = styled(Link)`
       }
     }
 
-    > .thumbnail {
-      position: relative;
-      width: 100%;
-      background-color: ${({ theme }) => theme.colors.gray2};
-      border-radius: 0.5rem 0.5rem 0 0;
-      overflow: hidden;
-      padding-bottom: 35%;
 
-      @media (min-width: 768px) {
-        padding-bottom: 30%;
-      }
-
-      @media (min-width: 1024px) {
-        padding-bottom: 25%;
-      }
-
-      img {
-        border-radius: 0.5rem 0.5rem 0 0;
-      }
-    }
     > .content {
       padding: 0.75rem;
 
@@ -145,26 +130,52 @@ const StyledWrapper = styled(Link)`
       &[data-category="false"] {
         padding-top: 1rem;
       }
+      &[data-category="true"] {
+        padding-top: 2.5rem;
+      }
       > .top {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
 
-        @media (min-width: 768px) {
-          flex-direction: row;
-          align-items: baseline;
-        }
         h2 {
+          flex: 1;
           margin-bottom: 0.25rem;
           font-size: 1rem;
           line-height: 1.5rem;
           font-weight: 500;
-
           cursor: pointer;
 
           @media (min-width: 768px) {
             font-size: 1.125rem;
             line-height: 1.75rem;
+          }
+        }
+
+        .thumbnail {
+          position: relative;
+          width: 80px;
+          height: 60px;
+          flex-shrink: 0;
+          background-color: ${({ theme }) => theme.colors.gray2};
+          border-radius: 0.5rem;
+          overflow: hidden;
+
+          @media (min-width: 768px) {
+            width: 100px;
+            height: 75px;
+          }
+
+          @media (min-width: 1024px) {
+            width: 120px;
+            height: 90px;
+          }
+
+          img {
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
           }
         }
       }
