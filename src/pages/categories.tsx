@@ -1,13 +1,13 @@
-import { GetStaticProps } from "next"
 import { dehydrate } from "@tanstack/react-query"
-import { CONFIG } from "../../site.config"
-import { NextPageWithLayout } from "../types"
-import { getPosts } from "../apis"
+import { GetStaticProps } from "next"
 import MetaConfig from "src/components/MetaConfig"
-import { queryClient } from "src/libs/react-query"
 import { queryKey } from "src/constants/queryKey"
+import { queryClient } from "src/libs/react-query"
 import { filterPosts } from "src/libs/utils/notion"
 import Categories from "src/routes/Categories"
+import { CONFIG } from "../../site.config"
+import { getPosts } from "../apis"
+import { NextPageWithLayout } from "../types"
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = filterPosts(await getPosts())
@@ -27,6 +27,9 @@ const CategoriesPage: NextPageWithLayout = () => {
     description: "Browse posts by category",
     type: "website",
     url: `${CONFIG.link}/categories`,
+    image: CONFIG.ogImageGenerateURL
+      ? `${CONFIG.ogImageGenerateURL}/${encodeURIComponent(`Categories - ${CONFIG.blog.title}`)}.png`
+      : undefined,
   }
 
   return (
