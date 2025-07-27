@@ -11,10 +11,6 @@ const CONFIG = {
     instagram: "",
   },
   projects: [
-    {
-      name: `notion-blog`,
-      href: "https://yuki-dev-blog.notion.site",
-    },
   ],
   // blog setting (required)
   blog: {
@@ -29,7 +25,7 @@ const CONFIG = {
   lang: "ko-KR", // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES', 'ko-KR']
   ogImageGenerateURL: "https://og-image-korean.vercel.app", // The link to generate OG image, don't end with a slash
   deployVersion: "2025-07-25",
-  
+
   // notion configuration (required)
   notionConfig: {
     pageId: process.env.NOTION_PAGE_ID,
