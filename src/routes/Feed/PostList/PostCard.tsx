@@ -1,12 +1,12 @@
+import styled from "@emotion/styled"
+import Image from "next/image"
 import Link from "next/link"
 import { CONFIG } from "site.config"
 import { formatDate } from "src/libs/utils"
+import { parseCategoryHierarchy } from "src/libs/utils/category"
+import Category from "../../../components/Category"
 import Tag from "../../../components/Tag"
 import { TPost } from "../../../types"
-import Image from "next/image"
-import Category from "../../../components/Category"
-import styled from "@emotion/styled"
-import { parseCategoryHierarchy } from "src/libs/utils/category"
 
 type Props = {
   data: TPost
@@ -95,21 +95,21 @@ const StyledWrapper = styled(Link)`
       top: 1rem;
       left: 1rem;
       z-index: 10;
-      
+
       .category-hierarchy {
         display: none;
         margin-top: 0.25rem;
         font-size: 0.75rem;
         color: ${({ theme }) => theme.colors.gray9};
-        
+
         .major {
           font-weight: 500;
         }
-        
+
         .separator {
           margin: 0 0.25rem;
         }
-        
+
         .minor {
           font-weight: 400;
         }
@@ -120,10 +120,20 @@ const StyledWrapper = styled(Link)`
       position: relative;
       width: 100%;
       background-color: ${({ theme }) => theme.colors.gray2};
-      padding-bottom: 66%;
+      border-radius: 0.5rem 0.5rem 0 0;
+      overflow: hidden;
+      padding-bottom: 35%;
+
+      @media (min-width: 768px) {
+        padding-bottom: 30%;
+      }
 
       @media (min-width: 1024px) {
-        padding-bottom: 50%;
+        padding-bottom: 25%;
+      }
+
+      img {
+        border-radius: 0.5rem 0.5rem 0 0;
       }
     }
     > .content {
