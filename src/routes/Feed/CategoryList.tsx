@@ -13,9 +13,10 @@ const CategoryList: React.FC<Props> = () => {
   const currentCategory = router.query.category || undefined
   const posts = usePostsQuery()
   const majorCategories = posts && posts.length > 0 ? getMajorCategoriesFromPosts(posts) : {}
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
-
-  // 기본적으로 모든 카테고리는 접힌 상태로 시작
+  // 기본적으로 모든 카테고리는 펼쳐진 상태로 시작
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set(posts && posts.length > 0 ? Object.keys(getMajorCategoriesFromPosts(posts)) : [])
+  )
 
   const handleClickCategory = (value: any) => {
     // delete
@@ -116,6 +117,11 @@ export default CategoryList
 const StyledWrapper = styled.div`
   width: 100%;
   max-width: 380px;
+
+  /* Hide categories on mobile and narrow screens */
+  @media (max-width: 960px) {
+    display: none !important;
+  }
 
   @media (min-width: 1024px) {
     max-width: 340px;
