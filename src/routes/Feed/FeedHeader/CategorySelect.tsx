@@ -4,7 +4,6 @@ import React from "react"
 import { IoChevronDown } from "react-icons/io5"
 import { DEFAULT_CATEGORY } from "src/constants"
 import styled from "@emotion/styled"
-import { useCategoriesQuery } from "src/hooks/useCategoriesQuery"
 import usePostsQuery from "src/hooks/usePostsQuery"
 import { getMajorCategoriesFromPosts } from "src/libs/utils/category"
 
@@ -136,12 +135,13 @@ const StyledWrapper = styled.div`
       
       &.major-category {
         font-weight: 600;
+        font-size: 0.8rem;
         margin-bottom: 0.125rem;
       }
       
       &.minor-category {
         font-size: 0.8rem;
-        color: ${({ theme }) => theme.colors.gray9};
+        color: ${({ theme }) => theme.colors.gray11};
         margin-left: 0.5rem;
       }
     }
