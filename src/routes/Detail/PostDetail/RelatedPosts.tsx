@@ -11,6 +11,23 @@ type Props = {
 }
 
 const RelatedPosts: React.FC<Props> = ({ currentPost, allPosts }) => {
+  // 제목 유사도 계산 함수
+  const calculateTitleSimilarity = (title1: string, title2: string): number => {
+    const words1 = title1.toLowerCase().split(/\s+/)
+    const words2 = title2.toLowerCase().split(/\s+/)
+    const commonWords = words1.filter(word => words2.includes(word))
+    const maxLength = Math.max(words1.length, words2.length)
+    return maxLength > 0 ? commonWords.length / maxLength : 0
+  }
+
+  // 시간 근접성 계산 함수 (30일 이내면 보너스 점수)
+  const calculateTimeProximity = (postDate: string, currentPostDate: string): number => {
+    const post = new Date(postDate)
+    const current = new Date(currentPostDate)
+    const daysDiff = Math.abs((post.getTime() - current.getTime()) / (1000 * 60 * 60 * 24))
+    return daysDiff <= 30 ? Math.max(0, 1 - daysDiff / 30) : 0
+  }
+
   const getRelatedPosts = () => {
     const filteredByIdAndStatus = allPosts
       .filter(post => post.id !== currentPost.id)
@@ -20,25 +37,54 @@ const RelatedPosts: React.FC<Props> = ({ currentPost, allPosts }) => {
       .map(post => {
         let score = 0
 
-        // 같은 카테고리면 높은 점수
+        // 1. 같은 카테고리면 높은 점수
         if (post.category?.[0] && currentPost.category?.[0] &&
             post.category[0] === currentPost.category[0]) {
           score += 3
         }
 
-        // 공통 태그 개수에 따라 점수 부여
+        // 2. 공통 태그 개수에 따라 점수 부여
         const commonTags = post.tags?.filter(tag =>
           currentPost.tags?.includes(tag)
         ).length || 0
         score += commonTags * 2
 
+        // 3. 제목 유사도 점수 (최대 3점)
+        const titleSimilarity = calculateTitleSimilarity(
+          post.title || '',
+          currentPost.title || ''
+        )
+        score += titleSimilarity * 3
+
+        // 4. 시간 근접성 점수 (최대 1점)
+        const currentPostDate = currentPost.date?.start_date || currentPost.createdTime
+        const postDate = post.date?.start_date || post.createdTime
+        if (currentPostDate && postDate) {
+          score += calculateTimeProximity(postDate, currentPostDate)
+        }
+
         return { ...post, score }
       })
-      .filter(post => post.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
 
-    return relatedPosts
+    // 관련 글이 있으면 상위 5개 반환
+    const highScorePosts = relatedPosts.filter(post => post.score > 0).slice(0, 5)
+    
+    // 관련 글이 부족하면 최신 글로 보완
+    if (highScorePosts.length < 5) {
+      const recentPosts = relatedPosts
+        .filter(post => !highScorePosts.some(hp => hp.id === post.id))
+        .sort((a, b) => {
+          const dateA = new Date(a.date?.start_date || a.createdTime || 0)
+          const dateB = new Date(b.date?.start_date || b.createdTime || 0)
+          return dateB.getTime() - dateA.getTime()
+        })
+        .slice(0, 5 - highScorePosts.length)
+
+      return [...highScorePosts, ...recentPosts].slice(0, 5)
+    }
+
+    return highScorePosts
   }
 
   const relatedPosts = getRelatedPosts()
@@ -101,7 +147,7 @@ const StyledWrapper = styled.section`
   .posts-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .post-item {
@@ -124,7 +170,7 @@ const StyledWrapper = styled.section`
     }
 
     article {
-      padding: 1rem 1.25rem;
+      padding: 0.75rem 1rem;
       border-radius: 0.75rem;
       background-color: ${({ theme }) =>
         theme.scheme === "light" ? "white" : theme.colors.gray4};
@@ -145,7 +191,7 @@ const StyledWrapper = styled.section`
       }
 
       h6 {
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.125rem;
         font-size: 0.75rem;
         font-weight: 500;
         line-height: 1.2;
