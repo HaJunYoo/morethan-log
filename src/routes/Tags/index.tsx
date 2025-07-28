@@ -74,35 +74,50 @@ const StyledWrapper = styled.div`
   padding: 2rem 1rem;
 
   .header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-align: center;
     
     h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
       color: ${({ theme }) => theme.colors.gray12};
+      
+      @media (min-width: 768px) {
+        font-size: 1.75rem;
+      }
     }
     
     p {
       color: ${({ theme }) => theme.colors.gray11};
-      font-size: 1rem;
-      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+      
+      @media (min-width: 768px) {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
     }
   }
 
   .search-container {
-    max-width: 400px;
+    max-width: 350px;
     margin: 0 auto;
     
     .search-input {
       width: 100%;
-      padding: 0.75rem 1rem;
+      padding: 0.5rem 0.75rem;
       border: 1px solid ${({ theme }) => theme.colors.gray6};
-      border-radius: 8px;
+      border-radius: 6px;
       background: ${({ theme }) => theme.colors.gray2};
       color: ${({ theme }) => theme.colors.gray12};
-      font-size: 1rem;
+      font-size: 0.875rem;
+      
+      @media (min-width: 768px) {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
       
       &:focus {
         outline: none;
@@ -122,12 +137,12 @@ const StyledWrapper = styled.div`
 
   .tags-grid {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     
     @media (max-width: 768px) {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.5rem;
     }
   }
 
@@ -135,13 +150,19 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.375rem;
     background: ${({ theme }) => theme.colors.gray2};
     border: 1px solid ${({ theme }) => theme.colors.gray6};
-    border-radius: 10px;
+    border-radius: 8px;
     text-decoration: none;
     transition: all 0.2s ease;
-    min-height: 50px;
+    min-height: 40px;
+    
+    @media (max-width: 768px) {
+      padding: 0.25rem;
+      min-height: 35px;
+      border-radius: 6px;
+    }
 
     &:hover {
       border-color: ${({ theme }) => theme.colors.gray8};
@@ -155,16 +176,24 @@ const StyledWrapper = styled.div`
       
       .tag-name {
         display: block;
-        font-size: 1rem;
+        font-size: 0.875rem;
         font-weight: 600;
         color: ${({ theme }) => theme.colors.gray12};
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.125rem;
         word-break: break-word;
+        
+        @media (max-width: 768px) {
+          font-size: 0.75rem;
+        }
       }
       
       .tag-count {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         color: ${({ theme }) => theme.colors.gray10};
+        
+        @media (max-width: 768px) {
+          font-size: 0.625rem;
+        }
       }
     }
   }

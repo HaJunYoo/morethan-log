@@ -89,37 +89,55 @@ const StyledWrapper = styled.div`
   padding: 2rem 1rem;
 
   .header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-align: center;
     
     h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
       color: ${({ theme }) => theme.colors.gray12};
+      
+      @media (min-width: 768px) {
+        font-size: 1.75rem;
+      }
     }
     
     p {
       color: ${({ theme }) => theme.colors.gray11};
-      font-size: 1rem;
+      font-size: 0.875rem;
+      
+      @media (min-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 
   .categories-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: 1rem;
+    
+    @media (max-width: 768px) {
+      gap: 0.875rem;
+    }
     
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
     }
   }
 
   .category-card {
     border: 1px solid ${({ theme }) => theme.colors.gray6};
-    border-radius: 10px;
-    padding: 1rem;
+    border-radius: 8px;
+    padding: 0.75rem;
     background: ${({ theme }) => theme.colors.gray2};
     transition: all 0.2s ease;
+
+    @media (max-width: 768px) {
+      padding: 0.625rem;
+      border-radius: 6px;
+    }
 
     &:hover {
       border-color: ${({ theme }) => theme.colors.gray8};
@@ -133,7 +151,11 @@ const StyledWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 0.625rem;
+    };
     
     .category-info {
       display: flex;
@@ -141,23 +163,35 @@ const StyledWrapper = styled.div`
       gap: 0.5rem;
       
       h2 {
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         font-weight: 600;
         color: ${({ theme }) => theme.colors.gray12};
         margin: 0;
+
+        @media (max-width: 768px) {
+          font-size: 1rem;
+        }
       }
       
       .count {
         color: ${({ theme }) => theme.colors.gray10};
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+
+        @media (max-width: 768px) {
+          font-size: 0.75rem;
+        }
       }
     }
     
     .expand-icon {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: ${({ theme }) => theme.colors.gray10};
       transition: transform 0.2s ease;
+
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -166,7 +200,11 @@ const StyledWrapper = styled.div`
     color: ${({ theme }) => theme.colors.blue9};
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+    }
     
     &:hover {
       text-decoration: underline;
@@ -174,23 +212,34 @@ const StyledWrapper = styled.div`
   }
 
   .minor-categories {
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
     border-top: 1px solid ${({ theme }) => theme.colors.gray5};
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.375rem;
+
+    @media (max-width: 768px) {
+      margin-top: 0.625rem;
+      padding-top: 0.625rem;
+      gap: 0.25rem;
+    }
   }
 
   .minor-category {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.625rem;
     background: ${({ theme }) => theme.colors.gray3};
-    border-radius: 6px;
+    border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.2s ease;
+
+    @media (max-width: 768px) {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
 
     &:hover {
       background: ${({ theme }) => theme.colors.gray4};
@@ -198,12 +247,20 @@ const StyledWrapper = styled.div`
     
     .minor-name {
       color: ${({ theme }) => theme.colors.gray11};
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+
+      @media (max-width: 768px) {
+        font-size: 0.8rem;
+      }
     }
     
     .minor-count {
       color: ${({ theme }) => theme.colors.gray9};
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+
+      @media (max-width: 768px) {
+        font-size: 0.7rem;
+      }
     }
   }
 `
