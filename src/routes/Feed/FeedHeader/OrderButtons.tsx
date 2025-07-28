@@ -48,8 +48,8 @@ const StyledWrapper = styled.div`
   
   @media (max-width: 480px) {
     justify-content: center;
-    gap: 0.75rem;
-    font-size: 0.875rem;
+    gap: 0.5rem;
+    font-size: 0.75rem;
   }
   
   a {
@@ -70,8 +70,9 @@ const StyledWrapper = styled.div`
     }
     
     @media (max-width: 480px) {
-      padding: 0.25rem 0.75rem;
+      padding: 0.125rem 0.5rem;
       font-weight: 500;
+      font-size: 0.75rem;
     }
   }
 `
