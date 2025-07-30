@@ -3,10 +3,13 @@ import { NotionAPI } from "notion-client"
 import { BlockMap, CollectionPropertySchemaMap } from "notion-types"
 import { customMapImageUrl } from "./customMapImageUrl"
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
 async function getPageProperties(
   id: string,
   block: BlockMap,
-  schema: CollectionPropertySchemaMap
+  schema: CollectionPropertySchemaMap,
+  retries = 3
 ) {
   const api = new NotionAPI()
   const rawProperties = Object.entries(block?.[id]?.value?.properties || [])
@@ -70,7 +73,24 @@ async function getPageProperties(
           for (let i = 0; i < rawUsers.length; i++) {
             if (rawUsers[i][0][1]) {
               const userId = rawUsers[i][0]
-              const res: any = await api.getUsers(userId)
+              
+              let res: any
+              for (let attempt = 0; attempt < retries; attempt++) {
+                try {
+                  res = await api.getUsers(userId)
+                  break
+                } catch (error) {
+                  if (attempt === retries - 1) {
+                    console.error(`Failed to fetch user ${userId[1]} after ${retries} attempts:`, error)
+                    throw error
+                  }
+                  
+                  const delay = Math.pow(2, attempt) * 1000
+                  console.warn(`Attempt ${attempt + 1} failed for user ${userId[1]}, retrying in ${delay}ms...`)
+                  await sleep(delay)
+                }
+              }
+              
               const resValue =
                 res?.recordMapWithRoles?.notion_user?.[userId[1]]?.value
               const user = {
