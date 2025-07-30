@@ -1,6 +1,6 @@
-import { CONFIG } from "site.config"
 import { NotionAPI } from "notion-client"
 import { idToUuid } from "notion-utils"
+import { CONFIG } from "site.config"
 
 import getAllPageIds from "src/libs/utils/notion/getAllPageIds"
 import getPageProperties from "src/libs/utils/notion/getPageProperties"
@@ -11,11 +11,33 @@ import { TPosts } from "src/types"
  */
 
 // TODO: react query를 사용해서 처음 불러온 뒤로는 해당데이터만 사용하도록 수정
-export const getPosts = async () => {
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+export const getPosts = async (retries = 3) => {
   let id = CONFIG.notionConfig.pageId as string
   const api = new NotionAPI()
 
-  const response = await api.getPage(id)
+  let response
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      response = await api.getPage(id)
+      break
+    } catch (error) {
+      if (attempt === retries - 1) {
+        console.error(`Failed to fetch posts after ${retries} attempts:`, error)
+        throw error
+      }
+
+      const delay = Math.pow(2, attempt) * 1000
+      console.warn(`Attempt ${attempt + 1} failed for posts, retrying in ${delay}ms...`)
+      await sleep(delay)
+    }
+  }
+
+  if (!response) {
+    throw new Error('Failed to fetch response from Notion API')
+  }
+
   id = idToUuid(id)
   const collection = Object.values(response.collection)[0]?.value
   const block = response.block
