@@ -9,7 +9,7 @@ async function getPageProperties(
   id: string,
   block: BlockMap,
   schema: CollectionPropertySchemaMap,
-  retries = 3
+  retries = 5
 ) {
   const api = new NotionAPI()
   const rawProperties = Object.entries(block?.[id]?.value?.properties || [])
@@ -79,14 +79,20 @@ async function getPageProperties(
                 try {
                   res = await api.getUsers(userId)
                   break
-                } catch (error) {
+                } catch (error: any) {
+                  const isNetworkError = error?.cause?.code === 'UND_ERR_SOCKET' || 
+                                       error?.message?.includes('fetch failed') ||
+                                       error?.message?.includes('other side closed') ||
+                                       error?.message?.includes('502 Bad Gateway')
+                  
                   if (attempt === retries - 1) {
                     console.error(`Failed to fetch user ${userId[1]} after ${retries} attempts:`, error)
                     throw error
                   }
                   
-                  const delay = Math.pow(2, attempt) * 1000
-                  console.warn(`Attempt ${attempt + 1} failed for user ${userId[1]}, retrying in ${delay}ms...`)
+                  const baseDelay = isNetworkError ? 2000 : 1000
+                  const delay = Math.pow(2, attempt) * baseDelay
+                  console.warn(`Attempt ${attempt + 1} failed for user ${userId[1]} (${isNetworkError ? 'network error' : 'unknown error'}), retrying in ${delay}ms...`)
                   await sleep(delay)
                 }
               }

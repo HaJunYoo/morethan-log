@@ -13,7 +13,7 @@ import { TPosts } from "src/types"
 // TODO: react query를 사용해서 처음 불러온 뒤로는 해당데이터만 사용하도록 수정
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-export const getPosts = async (retries = 3) => {
+export const getPosts = async (retries = 5) => {
   let id = CONFIG.notionConfig.pageId as string
   const api = new NotionAPI()
 
@@ -22,14 +22,20 @@ export const getPosts = async (retries = 3) => {
     try {
       response = await api.getPage(id)
       break
-    } catch (error) {
+    } catch (error: any) {
+      const isNetworkError = error?.cause?.code === 'UND_ERR_SOCKET' || 
+                           error?.message?.includes('fetch failed') ||
+                           error?.message?.includes('other side closed') ||
+                           error?.message?.includes('502 Bad Gateway')
+      
       if (attempt === retries - 1) {
         console.error(`Failed to fetch posts after ${retries} attempts:`, error)
         throw error
       }
 
-      const delay = Math.pow(2, attempt) * 1000
-      console.warn(`Attempt ${attempt + 1} failed for posts, retrying in ${delay}ms...`)
+      const baseDelay = isNetworkError ? 2000 : 1000
+      const delay = Math.pow(2, attempt) * baseDelay
+      console.warn(`Attempt ${attempt + 1} failed for posts (${isNetworkError ? 'network error' : 'unknown error'}), retrying in ${delay}ms...`)
       await sleep(delay)
     }
   }
